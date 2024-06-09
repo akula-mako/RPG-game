@@ -1,0 +1,144 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Welcome to the RPG game");
+
+        // Create instances of different character types
+        Warrior warrior = new Warrior("Aragorn", 100, 50, 1, 20, 15);
+        Mage mage = new Mage("Gandalf", 80, 100, 1, 25, 30);
+        Rogue rogue = new Rogue("Legolas", 90, 60, 1, 30, 20);
+
+        // Demonstrate different abilities and interactions
+        System.out.println("\nWarrior attacks Mage:");
+        warrior.attack(mage);
+        mage.displayStatus();
+
+        System.out.println("\nMage casts Fireball on Warrior:");
+        mage.fireball(warrior);
+        warrior.displayStatus();
+
+        System.out.println("\nRogue attacks Warrior:");
+        rogue.attack(warrior);
+        warrior.displayStatus();
+    }
+}
+
+class Character {
+    private String name;
+    private int health;
+    private int mana;
+    private int level;
+
+    public Character(String name, int health, int mana, int level) {
+        this.name = name;
+        this.health = health;
+        this.mana = mana;
+        this.level = level;
+    }
+
+    public void attack(Character target) {
+        System.out.println(this.name + " attacks " + target.name);
+        target.health -= 5;
+        this.mana -= 5;
+    }
+
+    public void defend() {
+        System.out.println(this.name + " defends");
+    }
+
+    public void castSpell(Character target) {
+        System.out.println(this.name + " casts a spell on " + target.name);
+    }
+
+    public void levelUp() {
+        this.level += 1;
+        this.health += 10;
+        this.mana += 10;
+        System.out.println(this.name + " has leveled up to level " + this.level);
+    }
+
+    public void receiveDamage(int damage) {
+        this.health -= damage;
+    }
+
+    public void receiveHealing(int heal) {
+        this.health += heal;
+    }
+
+    public void useMana(int amount) {
+        this.mana -= amount;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void displayStatus() {
+        System.out.println(this.name + " - Health: " + this.health + ", Mana: " + this.mana + ", Level: " + this.level);
+    }
+}
+
+class Warrior extends Character {
+    private int strength;
+    private int armor;
+
+    public Warrior(String name, int health, int mana, int level, int strength, int armor) {
+        super(name, health, mana, level);
+        this.strength = strength;
+        this.armor = armor;
+    }
+
+    public void powerStrike(Character target) {
+        System.out.println(this.getName() + " uses Power Strike on " + target.getName());
+        target.receiveDamage(15);
+    }
+
+    public void shieldBlock() {
+        System.out.println(this.getName() + " uses Shield Block");
+        this.receiveHealing(10);
+    }
+}
+
+class Mage extends Character {
+    private int intelligence;
+    private int spellPower;
+
+    public Mage(String name, int health, int mana, int level, int intelligence, int spellPower) {
+        super(name, health, mana, level);
+        this.intelligence = intelligence;
+        this.spellPower = spellPower;
+    }
+
+    public void fireball(Character target) {
+        System.out.println(this.getName() + " casts Fireball on " + target.getName());
+        target.receiveDamage(20);
+        this.useMana(15);
+    }
+
+    public void manaShield() {
+        System.out.println(this.getName() + " uses Mana Shield");
+        this.receiveHealing(10);
+        this.useMana(10);
+    }
+}
+
+class Rogue extends Character {
+    private int agility;
+    private int dexterity;
+
+    public Rogue(String name, int health, int mana, int level, int agility, int dexterity) {
+        super(name, health, mana, level);
+        this.agility = agility;
+        this.dexterity = dexterity;
+    }
+
+    public void backstab(Character target) {
+        System.out.println(this.getName() + " uses Backstab on " + target.getName());
+        target.receiveDamage(25);
+    }
+
+    public void evasion() {
+        System.out.println(this.getName() + " uses Evasion");
+    }
+}
